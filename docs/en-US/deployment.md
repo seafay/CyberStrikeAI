@@ -10,7 +10,7 @@ CyberStrikeAI can run as a local testing tool, an internal team service, or a pr
 - Python for some MCP servers and tool scripts.
 - SQLite files under `data/`; no external DB is required by default.
 - Actual security tools installed in PATH. YAML files under `tools/` only describe commands.
-- At least one `ai.channels` entry. Use `provider: openai_compatible` for OpenAI-compatible endpoints, or `provider: claude` for Eino's native Claude component.
+- At least one `ai.channels` entry. Use `provider: openai_compatible` for OpenAI-compatible endpoints, or `provider: claude` for Pi's native Claude component.
 
 Important persistent paths:
 
@@ -63,6 +63,8 @@ server:
   tls_enabled: true
   tls_auto_self_sign: true
 ```
+
+The generated certificate and private key are saved in `data/tls/self-signed.pem` under the configuration directory and reused across restarts and updates. The first upgrade from an in-memory certificate generates a new certificate. To rotate it, stop the service and move the file aside before starting again.
 
 For production, use real certificates or terminate TLS at a reverse proxy. If the proxy terminates TLS and forwards HTTP to the app, avoid enabling app-side TLS on the same upstream unless `proxy_pass` uses HTTPS.
 
